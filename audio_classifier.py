@@ -9,20 +9,12 @@ from torch.utils.data import Dataset, DataLoader
 import torchaudio
 
 
-
-
 import torch.nn as nn
 import torch.optim as optim
 
 
-
-
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
-
-
-
 
 
 
@@ -69,7 +61,6 @@ def init_weights(m):
     if type(m) == nn.Conv1d or type(m) == nn.Linear:
         nn.init.xavier_uniform_(m.weight.data)
 
-#%%
 # M5
 class Net(nn.Module):
     def __init__(self):
