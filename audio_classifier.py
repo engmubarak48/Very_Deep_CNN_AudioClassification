@@ -9,13 +9,13 @@ from torch.utils.data import Dataset, DataLoader
 import torchaudio
 
 
-# In[25]:
+
 
 import torch.nn as nn
 import torch.optim as optim
 
 
-# In[26]:
+
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -23,7 +23,7 @@ print(device)
 
 
 
-# In[27]:
+
 
 
 class AudioDataset(Dataset):
@@ -64,25 +64,6 @@ class AudioDataset(Dataset):
         return audio_new, labels
 
 
-# In[5]:
-
-
-#csvData = pd.read_csv('./UrbanSound8K/metadata/UrbanSound8K.csv')
-
-
-# In[6]:
-
-
-#csvData.head()
-
-
-# In[8]:
-
-
-#import IPython.display as ipd
-#ipd.Audio('./UrbanSound8K/audio/fold1/108041-9-0-5.wav')
-
-# In[8]:
 
 def init_weights(m):
     if type(m) == nn.Conv1d or type(m) == nn.Linear:
@@ -128,11 +109,6 @@ class Net(nn.Module):
 
 M5 = Net()
 M5.to(device)
-M5.apply(init_weights)
-#print(M5)
-
-
-# In[23]:
 
 # M3
 class Net(nn.Module):
@@ -161,11 +137,6 @@ class Net(nn.Module):
 
 M3 = Net()
 M3.to(device)
-M3.apply(init_weights)
-#print(M3)
-
-
-# In[14]:
 
 
 # M11
@@ -230,11 +201,6 @@ class Net(nn.Module):
 
 M11 = Net()
 M11.to(device)
-M11.apply(init_weights)
-#print(M11)
-
-
-# In[12]:
 
 
 # M18
@@ -325,11 +291,6 @@ class Net(nn.Module):
 
 M18 = Net()
 M18.to(device)
-M18.apply(init_weights)
-#print(M18)
-
-# In[22]:
-
 
 # M34-RES
 
@@ -526,10 +487,7 @@ class Net(nn.Module):
         return x
 M34_RES = Net()
 M34_RES.to(device)
-M34_RES.apply(init_weights)
-#print(model)
 
-# In[9]:
 
 
 def train(model, epoch):
@@ -554,7 +512,7 @@ def train(model, epoch):
 #                  100. * batch_idx / len(train_loader), loss))
     return 100. * correct / len(train_loader.dataset), np.mean(losses_train)
 
-# In[10]:
+
 
 def test(model, epoch):
     model.eval()
@@ -573,7 +531,7 @@ def test(model, epoch):
 #        100. * correct / len(test_loader.dataset)))
     return 100. * correct / len(test_loader.dataset), np.mean(test_losses)
 
-# In[23]:
+
     
 import matplotlib.pyplot as plt
 import time
@@ -601,7 +559,7 @@ for net in range(len(networks)):
         test_set = AudioDataset(csv_path, file_path, folds[test_folds])
 #        print("Train set size: " + str(len(train_set)))
 #        print("Test set size: " + str(len(test_set)))
-    
+        networks[net].apply(init_weights)
         kwargs = {'num_workers': 2, 'pin_memory': True} if device == 'cuda' else {} #needed for using datasets on gpu
     
         train_loader = torch.utils.data.DataLoader(train_set, batch_size = 32, shuffle = True, **kwargs)
